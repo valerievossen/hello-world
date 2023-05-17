@@ -24,7 +24,7 @@ We will be using the models from the paper ["Doing well by doing good? Green off
 We will generate two coefficient plots using the `modelplot` function:
 - A single coefficient across multiple models 
 - Multiple coefficients within a single model 
-- 
+
 ## Load packages and data
 
 Let's begin by loading the required packages and data:
