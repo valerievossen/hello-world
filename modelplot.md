@@ -71,7 +71,7 @@ reg5 <- feols(logrent ~ size_new + oocc_new + class_a + class_b + net + empl_new
 </p>
 
 
-## Example 1: One coefficient across multiple models
+## Example 1: A single coefficient across multiple models
 
 In this example, we will create a coefficient plot of the Green rating variable. This plot visualizes the relationship between the presence of a green rating and the rent of the building. The Green rating variable indicates whether a building is rated as green (1 if rated as green and 0 otherwise). 
 
