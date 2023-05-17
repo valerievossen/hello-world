@@ -19,7 +19,7 @@ output: html_document
 
 The `modelplot` function, part of the `modelsummary` package, enables the plotting of model estimates and confidence intervals. In this building block, we will provide you with two examples of coefficients plots to demonstrate the useful functions of `modelplot`. 
 
-We will be using the models from the paper ["Doing well by doing good? Green office buildings"](https://www.aeaweb.org/articles?id=10.1257/aer.100.5.2492) These models regress the logarithm of rent per square foot in commercial office buildings on a dummy variable representing a green rating (1 if rated as green) and other building characteristics. Please refer to the [`modelsummary` building block](https://tilburgsciencehub.com/building-blocks/analyze-data/regressions/model-summary/) for more information about the paper and the table. 
+We will be using the models from the paper ["Doing well by doing good? Green office buildings"](https://www.aeaweb.org/articles?id=10.1257/aer.100.5.2492) These models regress the logarithm of rent per square foot in commercial office buildings on a dummy variable representing a green rating (1 if rated as green) and other building characteristics. Please refer to the [`modelsummary` building block](https://tilburgsciencehub.com/building-blocks/analyze-data/regressions/model-summary/) for more information about the paper.
 
 We will generate two coefficient plots using the `modelplot` function:
 - A single coefficient across multiple models 
