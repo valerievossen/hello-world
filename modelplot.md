@@ -22,9 +22,9 @@ The `modelplot` function, part of the `modelsummary` package, enables the plotti
 We will be using the models from the paper ["Doing well by doing good? Green office buildings"](https://www.aeaweb.org/articles?id=10.1257/aer.100.5.2492) These models regress the logarithm of rent per square foot in commercial office buildings on a dummy variable representing a green rating (1 if rated as green) and other building characteristics. Please refer to the [`modelsummary` building block](https://tilburgsciencehub.com/building-blocks/analyze-data/regressions/model-summary/) for more information about the paper and the table. 
 
 We will generate two coefficient plots using the `modelplot` function:
-- One coefficient across multiple models: Green rating
-- Multiple coefficients of one regression: the Age variables of regression 3
-
+- A single coefficient across multiple models 
+- Multiple coefficients within a single model 
+- 
 ## Load packages and data
 
 Let's begin by loading the required packages and data:
@@ -47,7 +47,6 @@ data_url <- "https://github.com/tilburgsciencehub/website/blob/buildingblock/mod
 load(url(data_url)) #data_rent is loaded now
 
 ```
-
 
 ## The setting
 
@@ -74,7 +73,7 @@ reg5 <- feols(logrent ~ size_new + oocc_new + class_a + class_b + net + empl_new
 
 ## Example 1: One coefficient across multiple models
 
-In this example, we will create a coefficient plot of the Green rating varialbe. This plot visualizes the relationship between the presence of a green rating and the rent of the building. The Green rating variable indicates whether a building is rated as green (1 if rated as green and 0 otherwise). 
+In this example, we will create a coefficient plot of the Green rating variable. This plot visualizes the relationship between the presence of a green rating and the rent of the building. The Green rating variable indicates whether a building is rated as green (1 if rated as green and 0 otherwise). 
 
 We will include the regression models (1), (3), and (4) in the models list , as these include the Green rating variable. The order of the models in `models2` will determine the order of the variable rows in the plot. 
 
@@ -178,7 +177,7 @@ modelplot(models = models2,
 
 This plot visualises the relationship between the presence of a green rating and the rent of the building. For the different regression models 1, 3, and 4, the magnitude and the statistical significance of the green rating is unchanged. Thus, the plot reveals that the rent in a green-rated building is significantly higher by 2.8 to 3.5 percent compared to building without a green rating. 
 
-# Multiple Coefficients of One Regression: Age variables of regression 3
+## Example 2: Multiple Coefficients within a single model
 In this example, we will create a coefficient plot to showcase the coefficients of the Age variables in regression 3. This plot allows us to understand the individual effects of different age variables on the outcome variable log(rent) within regression 3. 
 
 Note that when including more variables in the plot, the `coef_map` argument is also useful for rearranging the order of the coefficients. 
