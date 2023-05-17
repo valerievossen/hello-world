@@ -48,7 +48,7 @@ load(url(data_url)) #data_rent is loaded now
 
 ```
 
-## The setting
+## The `modelsummary` table
 
 Below you see the five regression models for which results are displayed in Table 1 of Eiccholtz et al. (2010). For a detailed overview and understanding of these regressions, please refer to the [`modelsummary` building block](https://tilburgsciencehub.com/building-blocks/analyze-data/regressions/model-summary/).
 
@@ -92,7 +92,7 @@ modelplot(models = models2,
 ```
 
 <p align = "center">
-<img src = "../images/modelplotimage1.png" width="500">
+<img src = "../images/modelplotimage4.png" width="500">
 </p>
 
 ### Changing the confidence level
@@ -175,10 +175,10 @@ modelplot(models = models2,
 <img src = "../images/modelplotimage2.png" width="500">
 </p>
 
-This plot visualises the relationship between the presence of a green rating and the rent of the building. For the different regression models 1, 3, and 4, the magnitude and the statistical significance of the green rating is unchanged. Thus, the plot reveals that the rent in a green-rated building is significantly higher by 2.8 to 3.5 percent compared to building without a green rating. 
+This plot visualises the relationship between the presence of a green rating and the rent of the building. For the different regression models, the magnitude and the statistical significance of the green rating is unchanged. Thus, the plot reveals that the rent in a green-rated building is significantly higher by 2.8 to 3.5 percent compared to building without a green rating. 
 
 ## Example 2: Multiple Coefficients within a single model
-In this example, we will create a coefficient plot to showcase the coefficients of the Age variables in regression 3. This plot allows us to understand the individual effects of different age variables on the outcome variable log(rent) within regression 3. 
+In this example, we will create a coefficient plot to showcase the coefficients of the Age variables in regression 3. This plot allows us to understand the individual effects of different age variables on the outcome variable.
 
 Note that when including more variables in the plot, the `coef_map` argument is also useful for rearranging the order of the coefficients. 
 
@@ -197,7 +197,7 @@ modelplot(models = reg3,
 <img src = "../images/modelplotimage3.png" width="500">
 </p>
 
-## Further customizations
+### Further customizations
 
 Similar to the first example, we can customize the plot further with `ggplot` functions. We add a theme, change the font type and adjust the labels and captions.
 
@@ -222,7 +222,7 @@ modelplot(models = reg3,
 <img src = "../images/modelplotimage4.png" width="500">
 </p>
 
-This plot visualises the result from regression model 3, highlighting a substantial premium associated with newer buildings. 
+This plot clearly demonstrates that newer buildings command a significant premium compared to older ones, indicating a positive relationship between building age and rent in these models.
 
 {{% summary %}}
 The `modelplot` function from the `modelsummary` package offers a useful tool for creating clear and informative coefficients plots in R. In this building block, two examples are provided. The first example demonstrates how to visualize a single coefficient across multiple models. The second example showcases how to visualize multiple coefficients within a single model.  
