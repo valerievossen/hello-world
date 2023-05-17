@@ -75,7 +75,7 @@ reg5 <- feols(logrent ~ size_new + oocc_new + class_a + class_b + net + empl_new
 
 In this example, we will create a coefficient plot of the Green rating variable. This plot visualizes the relationship between the presence of a green rating and the rent of the building. The Green rating variable indicates whether a building is rated as green (1 if rated as green and 0 otherwise). 
 
-We will include the regression models (1), (3), and (4) in the models list , as these include the Green rating variable. The order of the models in `models2` will determine the order of the variable rows in the plot. 
+We will include the regression models 1, 3, and 4 in the models list, as these include the Green rating variable. The order of the models in `models2` will determine the order of the variable rows in the plot. 
 
 We can customize the variable names displayed in the coefficient plot using the `coef_map` argument. In the vector `cm`, we assign a new name to the original term name. Only variables included in `coef_map` will be shown in the plot. 
 
