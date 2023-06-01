@@ -157,7 +157,7 @@ summary(reg1)
 {{% /codeblock %}}
 
 <p align = "center">
-<img src = "../images/paneldatareg1.png" width="700">
+<img src = "paneldatareg1.png" width="700">
 </p>
 
 As shown in the `summary()` of the regression, the coefficient of value is `0.118` and significant on a 1% level. Thus, this regression using cross-sectional data indicates a positive relationship between the value and gross investment of a firm.
