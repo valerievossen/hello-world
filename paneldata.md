@@ -87,7 +87,7 @@ head(Grunfeld)
 {{% /codeblock %}}
 
 <p align = "center">
-<img src = "../images/headGrunfeld.png" width="700">
+<img src = "headGrunfeld.png" width="700">
 </p>
 
 ## Exploring panel data
