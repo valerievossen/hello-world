@@ -87,7 +87,7 @@ head(Grunfeld)
 {{% /codeblock %}}
 
 <p align = "center">
-<img src = "headGrunfeld.png" width="700">
+<img src = "headGrunfeld.png" width="500">
 </p>
 
 ## Exploring panel data
@@ -117,7 +117,7 @@ ggplot(data5firms,
 {{% /codeblock %}}
 
 <p align = "center">
-<img src = "../images/paneldataplot1.png" width="700">
+<img src = "paneldataplot1.png" width="700">
 </p>
 
 ## Notation of panel data
@@ -181,7 +181,7 @@ ggplot(Grunfeld,
 ```
 
 <p align = "center">
-<img src = "../images/paneldataplot2.png" width="700">
+<img src = "paneldataplot2.png" width="700">
 </p>
 
 This graph indicates this heterogeneity among the firms. The "starting value" of Gross Investment (without considering the effect of Firm Value) appears to be higher especially for the first two firms, namely General Motors and US Steel. 
@@ -248,7 +248,7 @@ reg2 <- lm(invest_diff ~ value_diff + capital_diff)
 summary(reg2)
 ```
 <p align = "center">
-<img src = "../images/paneldatareg2.png" width="700">
+<img src = "paneldatareg2.png" width="700">
 </p>
 
 #### T $\ge$ (more than 2 years)
@@ -298,7 +298,7 @@ summary(reg3)
 ```
 
 <p align = "center">
-<img src = "../images/paneldatareg3.png" width="700">
+<img src = "paneldatareg3.png" width="700">
 </p>
 
 {{% summary %}}
