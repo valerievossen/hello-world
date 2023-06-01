@@ -1,5 +1,5 @@
 ---
-title: "Panel data"
+title: "An introduction to Panel data"
 description: "A building block about the basics of panel data"
 keywords: "paneldata, panel, data, R, regression, model"
 draft: false
@@ -14,12 +14,11 @@ aliases:
 
 # Overview
 
-The goal of this building block is to provide an overview of panel data and how it can be helpful in causal inference analysis. 
+The goal of this building block is to provide an introduction to panel data and how it can be helpful in causal inference analysis. An example analysis will be done, going from cross-sectional data to panel data and explaining the steps on the way. 
 
 Panel data refers to a specific type of dataset that includes observations on multiple entities over multiple time periods. Unlike pooled cross-sectional data, which can have different cross-sectional units in each time period, panel data follows the same cross-sectional units throughout a given time period.
 
-The growing use of panel data in policy analysis, economics and social sciences can be attributed to its advantageous features. The structure of panel data, analyzing the same cross-sectional units over time, offers several benefits over cross-sectional and pooled cross-sectional data.
-
+The growing use of panel data in policy analysis, economics and social sciences can be attributed to its advantageous features. The structure of panel data, analyzing the same cross-sectional units over time, offers several benefits over cross-sectional and pooled cross-sectional data:
 
 - **Control for unobserved characteristics**
 Having multiple observations on the same units allows for controlling unobserved characteristics of individuals, firms and other entities. This helps mitigate omitted variable bias and provides more accurate estimates of causal effects.
@@ -30,20 +29,19 @@ The availability of multiple observations in panel data enhances the ability to 
 
 The building block will contain the following content: 
 
-- Introduction to data
-- Organising panel data
+- Introduction to the data 
+- Organising a panel data set
 - Exploring panel data
-- Notation of panel data
-- Analysis with panel data, step-by-step:
+- The notation 
+- Analysis with panel data
     1. Cross-sectional data
+        - Unobserved heterogeneity bias
     2. Panel data (2 years)
     3. Panel data (more than 2 years)
-- Assumptions
 
+## Introduction to the `Grunfeld` data set 
 
-## The `Grunfeld` data set 
-
-The [Grunfeld dataset](https://www.statsmodels.org/dev/datasets/generated/grunfeld.html) will be used as an example throughout this building block. It contains investment data for 11 U.S. Firms over a time period of 1935 until 1954. Thus, the data set contains 220 observations (11 firms * 20 years). The following variables are included in the data set:
+The [Grunfeld data set](https://www.statsmodels.org/dev/datasets/generated/grunfeld.html) will be used as an example throughout this building block. It contains investment data for 11 U.S. Firms over a time period of 1935 until 1954. Thus, the data set contains 220 observations (11 firms * 20 years).The following variables are included:
 
 | **Variables** 	| **Description** 	|
 |---	|---	|
@@ -51,8 +49,7 @@ The [Grunfeld dataset](https://www.statsmodels.org/dev/datasets/generated/grunfe
 | `value` 	| Market value as of Dec 31 in 1947 dollars 	|
 | `capital` 	| Stock of plant and equipment in 1947 dollars  	|
 | `firm` 	| - General Motors <br>- US Steel <br>- General Electric <br>- Chrysler <br>- Atlantic Refining <br>- IBM <br>- Union Oil  <br>- Westinghouse <br>- Goodyear <br>- Diamond Match <br>- American Steel  	|
-| `year`  	| 1935-1954 	|   
-
+| `year`  	| 1935-1954 	|      
 
 ### Load packages and data
 
@@ -70,32 +67,32 @@ data(Grunfeld)
 ```
 {{% /codeblock %}}
 
-
 ## Organising panel data
 
 The panel data is stored in a two-dimensional way:
 - The column `firm` identifies the entities under observation.
 - The column `year` documents the points in time the data was collected.
 
-The most common way to organize the data set is to store the time period of each unit together. In this case, the first 20 rows are for the first firm in our data, and each row is for each year (in combination with the first firm). The second 20 rows is for the second firm in our data, and so on. 
+A common approach to organize a panel data set is by grouping the data according to the time period of each unit. In this case, the first 20 rows are for the first firm in our data, and each row is for each year (in combination with the first firm). The second 20 rows is for the second firm in our data, and so on. The `Grunfeld` data set is already structured in this manner, so there's no need to make any changes here. 
 
-Also, we change the order of the columns so the first column indicates the firm and the second column indicates the year. 
+To further enhance clarity, we can rearrange the columns. The first column should indicate the firm, providing a clear identification of which firm's data each row represents. The second column should indicate the year, enabling us to track the temporal aspect of the data. This is done in the code block below. 
+
+The function `head()` returns the first 6 rows of the new `Grunfeld` data set. 
 
 {{% codeblock %}}
 ```R
 Grunfeld <- Grunfeld[, c("firm", "year", "invest", "value", "capital")]
-print(Grunfeld)
 head(Grunfeld)
 ```
 {{% /codeblock %}}
 
-With the argument `head()`, you can print the first 6 rows of the data set. 
-
-[screenshot]
+<p align = "center">
+<img src = "../images/headGrunfeld.png" width="700">
+</p>
 
 ## Exploring panel data
 
-The following plot illustrates the gross investment over the years in the data set, for the first five firms in the `Grunfeld` data set. A subset of firms is chosen in this visualisation to avoid the plot to be too crowded. 
+The following plot illustrates the gross investment over the years in the data set, for the first 5 firms in the `Grunfeld` data set. A subset of 5 firms is chosen to avoid the plot to be too crowded.
 
 {{% codeblock %}}
 ```R
@@ -119,26 +116,24 @@ ggplot(data5firms,
 ```
 {{% /codeblock %}}
 
-[screenshot]
+<p align = "center">
+<img src = "../images/paneldataplot1.png" width="700">
+</p>
 
 ## Notation of panel data
 
-Panel data typically comprises observations on `n` entities (such as firms) over `T` periods (here, years), where `T $ 2`. In the case of the Grunfeld data set, it contains informations on 11 firms (n = 11) observed across 20 years (T=20).
+Panel data typically consists of observations on `n` entities (such as firms) over `T` periods (here, years), where `T $\ge$ 2`. Specifically, in the `Grunfeld` data set, we have information on 11 firms observed across 20 years, resulting in `n = 11` and `T = 20`. 
 
-Each variable in the data set is denoted by a subscript consisting of i and t, representing a specific observation that combines a firm (i) with a particular year (t). For instance, an observation on the variables of interest,invest and value, is represented as 
-
-($value_{it}$, $invest_{it}$), where `i` $=$ 1,...,`n` and `t` = 1,...,`T`
-
-This indexing scheme allows us to distinguish and analyze the values of variables for each unique combination of a firm and a specific year. 
+To represent variables in the dataset, a subscript notation is used, combining the indices for the entity (`i`) and the period (`t`). This notation distinguishes a specific observation that corresponds to a particular firm (`i`) and a given year (`t`). For example, an observation in the data set is denoted as $Y_{it}$, where `i` $=$ 1,...,`n` and `t` = 1,...,`T`.
 
 ## Analysis with panel data
 
-An application of panel data will be done with the `Grunfeld` data set. Our analysis is about exploring the relationship between market value and gross investment. To explore this relationship, regression with panel data will be done. We start "simple" with cross-sectional and move on to using panel data in steps. Within these steps, the advantages of panel data will become clear!
+An application of panel data will be done with the `Grunfeld` data set. 
+
+Our analysis is about exploring the relationship between market value and gross investment of firms. We start "simple" with cross-sectional and move on to using panel data in steps. Within these steps, the advantages of panel data will become clear!
 
 ### Cross-sectional data
-Initially, we focus on utilizing cross-sectional data from the year 1935. To account for the influence of capital on investment, we incorporate the variable "capital" into our regression equation.
-
-The multiple regression model is as follows:
+We start with only cross-sectional data from the year 1935. The variable `capital` is added as a control variable, and thus the multiple regression model is as follows:
 
 {{<katex>}}
 invest_{i} = \beta_0 + \beta_1 value_{i} + \beta_2 capital_{i} + \epsilon_{i}
@@ -150,35 +145,60 @@ where,
 - $capital_{i}$ is the stock value of plant and equipment of firm `i`
 - $\epsilon_{i}$ is the error term
 
+The regression equation is estimated using R. 
+
 {{% codeblock %}}
 ```R
-Grunfeld1935 <- Grunfeld[Grunfeld$year== '1935',]
+Grunfeld1935 <- Grunfeld[Grunfeld$year== '1935',]  #extract data from year 1935
 
 reg1 <- lm(invest ~ value + capital, data = Grunfeld1935)
 summary(reg1)
 ```
 {{% /codeblock %}}
 
-[screenshot summary]
+<p align = "center">
+<img src = "../images/paneldatareg1.png" width="700">
+</p>
 
-The coefficient of value is 0.118 and significant on a 1% level, which means that the regression results indicate a positive relationship between the value and investment of a firm.
+As shown in the `summary()` of the regression, the coefficient of value is `0.118` and significant on a 1% level. Thus, this regression using cross-sectional data indicates a positive relationship between the value and gross investment of a firm.
+
 
 #### Unobserved heterogeneity bias
-Using only cross-sectional data may result in omission of variables that influence investment decisions. This omission can lead to biased and incomplete findings regarding the relationship between the value and investment we are trying to estimate. 
+However, using only cross-sectional data may result in omission of variables that influence investment decisions, resulting in biased and incomplete findings. To address this issue, we can include more variables in the equation to control for additional factors impacting gross investment decisions for firms. However, this approach is not straightforward. Many factors might be unobserved and impossible to control for. 
 
-To address this issue, one possible solution is to include more variables in the equation to control for additional factors that impact gross investment decisions for firms. However, this is not straightforward. Many factors might be unobserved and impossible to control for. 
+*A plot of Firm Value on Gross Investment*
 
-### Panel data 
-The use of panel data becomes particularly advantageous here! Panel data allows for the inclusion of additional variables that vary over time and across different entities, effectively capturing the omitted factors that can affect investment decisions. 
+```R
+ggplot(Grunfeld, 
+       aes(x=value, 
+           y=invest, 
+           colour=factor(firm))
+           ) + 
+  geom_point() + 
+  labs(x ="Firm value", y = "Gross Investment") +
+  scale_colour_discrete(name="Firm") + 
+  geom_smooth(method="lm", se =FALSE)
+```
 
-This approach allows us to account for two types of unobserved effects, also known as fixed effects. 
+<p align = "center">
+<img src = "../images/paneldataplot2.png" width="700">
+</p>
 
-- The first type are unobserved effects that are constant over time. In this case, they represent firm-specific characteristics that persistently influence investment behavior. Think of effects like Managerial Quality and Reputation of the firm that can have an effect on their investment decisions. For example, a higher managerial quality of a firm might result in a higher investment independent of firm value. 
-- The second type is unobserved effects that vary over time. These time-varying unobserved effects capture factors that change over different periods and still affect investment decisions. Examples of this type of effects in our case could be the market conditions in a certain year. A year with better market conditions might bring higher investment independent on firm value. 
+This graph indicates this heterogeneity among the firms. The "starting value" of Gross Investment (without considering the effect of Firm Value) appears to be higher especially for the first two firms, namely General Motors and US Steel. 
+
+To address this heterogeneity and account for time-invariant differences, we can use panel data to add firm fixed effects into our model. By doing so, our model will include a specific intercept for each firm, capturing the time-invariant characteristics unique to each entity. This adjustment allows us to control for the disparities in intercepts across firms and provide a more accurate analysis of the relationship between Firm Value and Gross Investment, accounting for the heterogeneity observed in the data. 
+
+There are two types of fixed effects (until now, we only considered the first type):
+
+1. **Unobserved effects that are constant over time**
+In this case, they represent firm-specific characteristics that persistently influence investment behavior. Think of effects like managerial quality or reputation of the firm. For example, a higher managerial quality might result in a higher investment, independent of the firm value.
+
+2. **Unobserved effects that vary over time**
+These time-varying unobserved effects capture factors that change over different periods and affect investment decisions. It allows for the consideration of specific years that may have effects on gross investment unrelated to firm-specific decisions or characteristics. For example, a particular year might experience very bad market conditions, exerting a negative influence on the gross investment of all firms in the data set. 
 
 #### T = 2 (data of 2 years)
 
-Let's first consider a data set with two time periods, specifically the years 1935 and 1940. Our objective is to eliminate firm-specific effects that remain constant over time, represented by the variable $Z_{i}$. We can achieve this by taking the difference between the observations in 1940 and 1935.
+Let's first consider a data set with 2 time periods, specifically the years 1935 and 1940. Our objective is to eliminate firm-specific effects that remain constant over time, represented by the variable $Z_{i}$. We can achieve this by taking the difference between the observations in 1940 and 1935.
 
 The multiple regression model is as follows:
 
@@ -200,20 +220,19 @@ The regression equation for the year `t = 1935`:
 invest_{i1935} = \beta_0 + \beta_1 value_{i1935} + \beta_2 capital_{i1935} + \beta_3 Z_{i} + \mu_{i1935}
 {{</katex>}}
 
-And the regression equation for the year `t = 1940`:
+The regression equation for the year `t = 1940`:
 invest_{i1940} = \beta_0 + \beta_1 value_{i1940} + \beta_2 capital_{i1940} + \beta_3 Z_{i} + \mu_{i1940}
 {{</katex>}}
 
-To eliminate the firm-specific characteristics $Z_{i}$ we can regress the difference in the investment variable between 1940 and 1935 on the difference in firm value between those years. This leads us to the differenced regression equation:
+To eliminate the firm-specific characteristics $Z_{i}$, we can use a differencing approach. By regressing the difference in the Investment variable between 1940 and 1935 on the difference in the independent variables during that period, we arrive at the differenced regression equation:
 
 {{<katex>}}
 invest_{i1940} - invest_{i1935} = \beta_1 (value_{i1940} - value_{i1935}) + \beta_2 (capital_{i1940} - capital_{i1935}) + (\mu_{i1940} - \mu_{i1935})
 {{</katex>}}
 
-By taking the difference between the observations in `t = 1940` and `t = 1935`, we effectively remove any variable that is constant over time from the analysis. This differencing approach helps control for unobserved heterogeneity that is constant over time. 
+By taking differences between the years, we remove any unobserved variable that is constant over time (which is $Z_{i}$ here). 
 
-The following code helps estimating this regression in R:
-
+The following code block estimates this regression in R.
 ```R
 # subset data for years 1935 and 1940 
 Grunfeld1935 <- Grunfeld[Grunfeld$year== '1935',]
@@ -227,17 +246,15 @@ capital_diff <- Grunfeld1940$capital - Grunfeld1935$capital
 # regression 
 reg2 <- lm(invest_diff ~ value_diff + capital_diff)
 summary(reg2)
-
 ```
-
-[screenshot]
-
-$\beta_1$ is the coefficient of interest, showing the relationship between firm value and investment. The estimate has a value of `0.066`, significant at a 10% level. 
+<p align = "center">
+<img src = "../images/paneldatareg2.png" width="700">
+</p>
 
 #### T $\ge$ (more than 2 years)
 
 Now, we will consider a fixed effects regression, by using the full `Grunfeld` data set (T = 20). 
-With only entity fixed effects, this is the fixed effects model:
+With only entity fixed effects, this is the model:
 
 {{<katex>}}
 invest_{it} = \beta_0 + \beta_1 value_{it} + \beta_2 capital_{it} + \alpha_i + \epsilon_{it}
@@ -250,47 +267,42 @@ where,
 - $\alpha_i$ is the fixed effect for firm `i`
 - $\epsilon_{it}$ is the error term, which includes all other unobserved factors that affect investment but are not accounted for by the independent variables or the fixed effects.
 
+
+### Time fixed effects
 Time fixed effects capture the unobserved year-specific factors that are common to all firms in that year.
-Adding both time and entity fixed effects, we will come to this general fixed effects model:
+With both time and entity fixed effects, this is the model:
 
 {{<katex>}}
 invest_{it} = \beta_0 + \beta_1 value_{it} + \beta_2 capital_{it} + \alpha_i +  \delta_t + \epsilon_{it}
 {{</katex>}}
 
-where $\delta_t$ is the fixed effect for year `t`
+where $\alpha_i$ is the fixed effect for firm `i` and $\delta_t$ is the fixed effect for year `t`
  
 *Intuition*
-The intuition behind this fixed effects regression equation is relatively straightforward. You are adding dummy variables for each year and each firm to account for unobserved factors. By including these variables, you allow the intercept to vary across different observations. 
+The intuition behind this fixed effects regression equation is relatively straightforward. We are adding dummy variables for each year and each firm to account for unobserved factors. By including these variables, you allow the intercept, the "starting point", to vary across observations. 
 
 The intercept of an observation is: `$\beta_0$ + $\alpha_i$  + $\delta_t$`. 
 
-Let's consider the observation of firm 5 in year 6 as an example: 
-($value_{56}$, $invest_{56}$), where `i` $=$ 5 and `t` = 6
+For example, the observation Y_56 (firm 5 in year 6) has the intercept `$\beta_0$ + $\alpha_5$  + $\delta_t$`. 
+- $\beta_0$ represents the baseline intercept
+- $\alpha_5$ captures the firm-specific effect for firm 5 (value of 1 for firm 5, and 0 otherwise)
+- $\delta_6$ represents the year-specific effect for year 6 (value of 1 for year 6, and 0 otherwise)
 
-This observation has the intercept `$\beta_0$ + $\alpha_5$  + $\delta_t$`. 
-$\beta_0$ represents the baseline intercept, $\alpha_5$ captures the firm-specific effect for firm 5 (taking a value of 1 for firm 5 and year 6, and 0 otherwise), and $\delta_6$ represents the year-specific effect for year 6.
+The following code estimates this fixed effects equation in R. 
 
-The following code estimates this equation in R. For a more more thorough explanation on fixed effects regression in R and the package `fixest`, check the [`fixest` building block](https://tilburgsciencehub.com/building-blocks/analyze-data/regressions/fixest/).
+Please refer to the [`fixest` building block](https://tilburgsciencehub.com/building-blocks/analyze-data/regressions/fixest/) for a more thorough explanation on this fixed effects regression in R and the package `fixest` in general!
 
 ```R
-feols(invest ~ value + capital | firm + year , data = Grunfeld)
+reg3 <- feols(invest ~ value + capital | firm + year , data = Grunfeld)
+summary(reg3)
 ```
 
-## Assumptions of Fixed Effects Regression 
+<p align = "center">
+<img src = "../images/paneldatareg3.png" width="700">
+</p>
 
-The focus for the assumptions lays on entity fixed effects. 
+{{% summary %}}
+...
+{{% /summary %}}
 
-In the fixed effects model
 
-Y_it = beta_1 + X_it + alpha_i + u_it, i = 1,...,n, t = 1,...,T, 
-
-we assume the following: 
-
-1. The error term u_it has conditional mean zero, that is, E(u_it|X_i1,...,X_it = 0).
-2. (X_i1, X_i2,...,X_it, u_i1,...,u_it), i = 1,...,n are i.i.d. draws from their joint distribution. 
-3. Large outliers are unlikely, i.e., (X_it, u_it) have nonzero finite fourth moments
-4. There is no perfect collinearity. 
-
-When there are multiple regresors, X_it is replaced by X_1,it, X_2,it,..., X_k,it. 
-
-Summary
