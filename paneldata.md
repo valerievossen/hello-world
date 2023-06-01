@@ -86,7 +86,7 @@ head(Grunfeld)
 {{% /codeblock %}}
 
 <p align = "center">
-<img src = "../images/headGrunfeld.png" width="500">
+<img src = "headGrunfeld.png" width="500">
 </p>
 
 ## Exploring panel data
@@ -116,7 +116,7 @@ ggplot(data5firms,
 {{% /codeblock %}}
 
 <p align = "center">
-<img src = "../images/paneldataplot1.png" width="700">
+<img src = "paneldataplot1.png" width="700">
 </p>
 
 ## Notation of panel data
@@ -156,7 +156,7 @@ summary(reg1)
 {{% /codeblock %}}
 
 <p align = "center">
-<img src = "../images/paneldatareg1.png" width="700">
+<img src = "paneldatareg1.png" width="700">
 </p>
 
 As shown in the `summary()` of the regression, the coefficient of value is `0.103` and significant on a 1% level. Thus, this regression using cross-sectional data indicates a positive relationship between the value and gross investment of a firm.
@@ -179,7 +179,7 @@ ggplot(Grunfeld,
 ```
 
 <p align = "center">
-<img src = "../images/paneldataplot2.png" width="700">
+<img src = "paneldataplot2.png" width="700">
 </p>
 
 This graph indicates this heterogeneity among the firms. The "starting value" of Gross Investment (without considering the effect of Firm Value) appears to be higher especially for the first two firms, namely General Motors and US Steel. 
@@ -246,7 +246,7 @@ reg2 <- lm(invest_diff ~ value_diff + capital_diff)
 summary(reg2)
 ```
 <p align = "center">
-<img src = "../images/paneldatareg2.png" width="700">
+<img src = "paneldatareg2.png" width="700">
 </p>
 
 ### Entity fixed effects with T $\ge$ 2 (data of 2 or more years)
@@ -296,7 +296,7 @@ summary(reg3)
 ```
 
 <p align = "center">
-<img src = "../images/paneldatareg3.png" width="700">
+<img src = "paneldatareg3.png" width="700">
 </p>
 
 {{% summary %}}
